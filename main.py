@@ -22,6 +22,11 @@ try:
                 if header == "Date":
                   prices[header].append(value)
                 else:
+                  if value == "":
+                   print("Error: Missing price value found.")
+                   print(f"Column: {header}")
+                   print("Please check data/prices.csv.")
+                   exit(1)
                   try:
                      prices[header].append(float(value))
                     
