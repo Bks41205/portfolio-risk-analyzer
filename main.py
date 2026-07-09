@@ -1,46 +1,58 @@
 import csv
-import json 
-from analyzer import calculate_return_statistics, calculate_returns, calculate_volatility
+import json
+from analyzer import (
+    calculate_return_statistics,
+    calculate_returns,
+    calculate_volatility,
+)
 
-prices = {
-    "Date": [],
-    "AAPL": [],
-    "MSFT": []
-}
+prices = {}
+
 
 with open("data/prices.csv", "r") as file:
     reader = csv.DictReader(file)
 
+   
+    for header in reader.fieldnames:
+        prices[header] = []
+
+   
     for row in reader:
-        prices["Date"].append(row["Date"])
-        prices["AAPL"].append(float(row["AAPL"]))
-        prices["MSFT"].append(float(row["MSFT"]))
+        for header, value in row.items():
+            if header == "Date":
+                prices[header].append(value)
+            else:
+                prices[header].append(float(value))
 
-print(prices)
+print("Reading stock prices...")
+print("Calculating returns and risk metrics...")
 
-with open("data/report.json", "w") as file:
-    aapl_returns = calculate_returns(prices["AAPL"])
-    msft_returns = calculate_returns(prices["MSFT"])
+report = {}
 
-    aapl_stats = calculate_return_statistics(aapl_returns)
-    msft_stats = calculate_return_statistics(msft_returns)
 
-    aapl_volatility = calculate_volatility(aapl_returns)
-    msft_volatility = calculate_volatility(msft_returns)
+for ticker in prices.keys():
 
-    report = {
-        "AAPL": {
-            "average_return": aapl_stats[0],
-            "best_return": aapl_stats[1],
-            "worst_return": aapl_stats[2],
-            "volatility": aapl_volatility
-        },
-        "MSFT": {
-            "average_return": msft_stats[0],
-            "best_return": msft_stats[1],
-            "worst_return": msft_stats[2],
-            "volatility": msft_volatility
-        }
+    
+    if ticker == "Date":
+        continue
+
+    stock_prices = prices[ticker]
+
+    returns = calculate_returns(stock_prices)
+
+    mean_return, max_return, min_return = calculate_return_statistics(returns)
+
+    volatility = calculate_volatility(returns)
+
+    report[ticker] = {
+        "average_return": mean_return,
+        "best_return": max_return,
+        "worst_return": min_return,
+        "volatility": volatility,
     }
 
+
+with open("reports/report.json", "w") as file:
     json.dump(report, file, indent=4)
+
+print("Report saved to reports/report.json")
