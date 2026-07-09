@@ -8,21 +8,25 @@ from analyzer import (
 
 prices = {}
 
-
-with open("data/prices.csv", "r") as file:
-    reader = csv.DictReader(file)
-
-   
-    for header in reader.fieldnames:
-        prices[header] = []
+try:
+    with open("data/prices.csv", "r") as file:
+     reader = csv.DictReader(file)
 
    
-    for row in reader:
-        for header, value in row.items():
-            if header == "Date":
-                prices[header].append(value)
-            else:
-                prices[header].append(float(value))
+     for header in reader.fieldnames:
+            prices[header] = []
+
+   
+     for row in reader:
+             for header, value in row.items():
+                if header == "Date":
+                  prices[header].append(value)
+                else:
+                  prices[header].append(float(value))
+
+except FileNotFoundError:
+    print("Error: The file 'data/prices.csv' was not found.")
+    exit(1)
 
 print("Reading stock prices...")
 print("Calculating returns and risk metrics...")
