@@ -22,7 +22,12 @@ try:
                 if header == "Date":
                   prices[header].append(value)
                 else:
-                  prices[header].append(float(value))
+                  try:
+                     prices[header].append(float(value))
+                    
+                  except ValueError:
+                      print("Error: Invalid value encountered in the CSV file. Please ensure all price values are numeric.\n")
+                      exit(1)
 
 except FileNotFoundError:
     print("Error: The file 'data/prices.csv' was not found.")
