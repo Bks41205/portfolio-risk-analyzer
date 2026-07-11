@@ -4,6 +4,7 @@ from analyzer import (
     calculate_return_statistics,
     calculate_returns,
     calculate_volatility,
+    cumulative_return,
 )
 
 prices = {}
@@ -58,11 +59,14 @@ for ticker in prices.keys():
 
     volatility = calculate_volatility(returns)
 
+    cumulative_ret = cumulative_return(stock_prices)
+
     report[ticker] = {
         "average_return": mean_return,
         "best_return": max_return,
         "worst_return": min_return,
         "volatility": volatility,
+        "cumulative_return": cumulative_ret,
     }
 
 

@@ -20,6 +20,11 @@ def calculate_volatility(returns):
     volatility = variance ** 0.5
     return volatility 
    
+def cumulative_return(prices_list):
+    if not prices_list:
+        return 0.0
+    cumulative_ret = (prices_list[-1] - prices_list[0]) / prices_list[0]
+    return cumulative_ret
 
 
 
