@@ -5,6 +5,7 @@ from analyzer import (
     calculate_returns,
     calculate_volatility,
     cumulative_return,
+    portfolio_return,
 )
 
 prices = {}
@@ -61,13 +62,30 @@ for ticker in prices.keys():
 
     cumulative_ret = cumulative_return(stock_prices)
 
+  
+
+
+    
+
     report[ticker] = {
         "average_return": mean_return,
         "best_return": max_return,
         "worst_return": min_return,
         "volatility": volatility,
         "cumulative_return": cumulative_ret,
+        
+       
     }
+
+    for other_ticker in prices.keys():
+        if other_ticker == "Date" or other_ticker == ticker:
+            continue
+
+        other_stock_prices = prices[other_ticker]
+        port_return = portfolio_return([0.5, 0.5], [mean_return, calculate_return_statistics(calculate_returns(other_stock_prices))[0]])
+        report[ticker][f"portfolio_with_{other_ticker}"] = port_return
+        
+        
 
 
 with open("reports/report.json", "w") as file:

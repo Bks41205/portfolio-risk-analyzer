@@ -27,5 +27,10 @@ def cumulative_return(prices_list):
     return cumulative_ret
 
 
+def portfolio_return(weights,returns):
+    portfolio_ret = sum(w * r for w, r in zip(weights, returns))
+    return portfolio_ret
+
+
 
     
