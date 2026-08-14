@@ -82,8 +82,32 @@ for ticker in prices.keys():
             continue
 
         other_stock_prices = prices[other_ticker]
-        port_return = portfolio_return([0.5, 0.5], [mean_return, calculate_return_statistics(calculate_returns(other_stock_prices))[0]])
-        report[ticker][f"portfolio_with_{other_ticker}"] = port_return
+        
+        
+        other_returns = calculate_returns(other_stock_prices)
+        other_mean_return, _, _ = calculate_return_statistics(other_returns)
+        other_volatility = calculate_volatility(other_returns)
+
+        
+        weights = [0.5, 0.5]
+        port_return = portfolio_return(
+            weights, 
+            [mean_return, other_mean_return]
+        )
+
+        
+        cov = calculate_covariance(returns, other_returns)
+        port_volatility = portfolio_volatility(
+            weights, 
+            [volatility, other_volatility], 
+            cov
+        )
+
+        
+        report[ticker][f"portfolio_with_{other_ticker}"] = {
+            "expected_return": port_return,
+            "volatility": port_volatility
+        }
         
         
 
