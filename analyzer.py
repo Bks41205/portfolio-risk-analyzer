@@ -32,5 +32,18 @@ def portfolio_return(weights,returns):
     return portfolio_ret
 
 
+def calculate_covariance(returns_a, returns_b):
+    mean_a = sum(returns_a) / len(returns_a)
+    mean_b = sum(returns_b) / len(returns_b)
+    cov = sum((a - mean_a) * (b - mean_b) for a, b in zip(returns_a, returns_b))
+    return cov / len(returns_a)
+
+def portfolio_volatility(weights, volatilities, covariance):
+    w1, w2 = weights
+    v1, v2 = volatilities
+    variance = (w1**2 * v1**2) + (w2**2 * v2**2) + (2 * w1 * w2 * covariance)
+    return variance ** 0.5
+
+
 
     

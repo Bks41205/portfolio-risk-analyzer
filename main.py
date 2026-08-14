@@ -6,9 +6,13 @@ from analyzer import (
     calculate_volatility,
     cumulative_return,
     portfolio_return,
+    calculate_covariance,
+    portfolio_volatility
 )
 
-prices = {}
+if __name__ == "__main__":
+
+ prices = {}
 
 try:
     with open("data/prices.csv", "r") as file:
