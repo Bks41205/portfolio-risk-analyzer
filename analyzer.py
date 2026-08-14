@@ -44,6 +44,12 @@ def portfolio_volatility(weights, volatilities, covariance):
     variance = (w1**2 * v1**2) + (w2**2 * v2**2) + (2 * w1 * w2 * covariance)
     return variance ** 0.5
 
+def calculate_sharpe_ratio(mean_return, volatility, risk_free_rate=0.0):
+   
+    if volatility == 0:
+        return 0.0
+    return (mean_return - risk_free_rate) / volatility 
+
 
 
     

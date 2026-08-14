@@ -7,9 +7,10 @@ from analyzer import (
     cumulative_return,
     portfolio_return,
     calculate_covariance,
-    portfolio_volatility
+    portfolio_volatility,
+    calculate_sharpe_ratio
 ) 
-from visualizer import plot_correlation_heatmap, plot_cumulative_returns
+from visualizer import plot_correlation_heatmap, plot_cumulative_returns, plot_sharpe_ratios
 
 if __name__ == "__main__":
 
@@ -108,6 +109,8 @@ for ticker in prices.keys():
             cov
         )
 
+        port_sharpe_ratio = calculate_sharpe_ratio(port_return, port_volatility)
+
         
         report[ticker][f"portfolio_with_{other_ticker}"] = {
             "expected_return": port_return,
@@ -124,4 +127,7 @@ print("Report saved to reports/report.json")
 
 print("Generating charts...")
 plot_cumulative_returns(prices)
-plot_correlation_heatmap(prices)
+plot_correlation_heatmap(prices) 
+
+print("Generating Sharpe Ratio chart...")
+plot_sharpe_ratios(report)
