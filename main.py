@@ -8,7 +8,8 @@ from analyzer import (
     portfolio_return,
     calculate_covariance,
     portfolio_volatility
-)
+) 
+from visualizer import plot_correlation_heatmap, plot_cumulative_returns
 
 if __name__ == "__main__":
 
@@ -119,4 +120,8 @@ for ticker in prices.keys():
 with open("reports/report.json", "w") as file:
     json.dump(report, file, indent=4)
 
-print("Report saved to reports/report.json")
+print("Report saved to reports/report.json") 
+
+print("Generating charts...")
+plot_cumulative_returns(prices)
+plot_correlation_heatmap(prices)
